@@ -49,7 +49,7 @@ exports.login = async (req, res) => {
         
               const token = signToken(userinDB, remember);
               res.status(200).json({
-                token,
+                token:token,
                 user: {
                   userId: userinDB.id,
                   name:userinDB.name,
