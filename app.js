@@ -32,7 +32,7 @@ mongoose
 app.use(
     cors({
         credentials: true,
-        origin: ["https://www.unaigo.com", "http://www.unaigo.com", "http://www.fontawesome.com", "http://localhost:3000"]
+        origin: ["https://www.unaigo.com", "http://www.unaigo.com", "http://www.fontawesome.com", "https://organise-forines.web.app/", "http://localhost:3000"]
     })
 );  
 
