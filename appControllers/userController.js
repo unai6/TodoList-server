@@ -49,7 +49,7 @@ exports.login = async (req, res) => {
         
               const token = signToken(userinDB, remember);
               res.status(200).json({
-                token:token,
+                token,
                 user: {
                   userId: userinDB.id,
                   name:userinDB.name,
@@ -81,19 +81,22 @@ exports.logout = async  (req, res) => {
 exports.dashboard = async (req, res) => {
     try {
         const { userId } = req.params;
-         await User.findById(userId)
-        
-            jwt.verify(req.token, process.env.SECRET_KEY, { userId }, (err, authorizedData) => {    
+        const user = await User.findById(userId).populate({
+            path:'tasks',
+            model:'Task'
+        })
+         const token = req.header('x-auth-token') || req.headers['authorization'];  
+
+            jwt.verify(token, process.env.SECRET_KEY, { userId }, (err, authorizedData) => {    
                 if (err) {
-
-                    res.status(403).json('Protected route, you need an auth Token');
+                    res.status(401).json('Protected route, you need an auth Token');
+                    
                 } else {
-
+                    authorizedData.user = user
                     res.json({
                         message: 'Successful connection to protected route',
-                        authorizedData,
+                        authorizedData,   
                     });
-
                     
                 }
 
