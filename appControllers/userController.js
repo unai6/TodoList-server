@@ -34,9 +34,18 @@ exports.login = async (req, res) => {
           if(!user) return res.status(404).json({msg: 'User not found'});
       
           const passCorrect = bcryptjs.compareSync(password, user.password);
-          if(!passCorrect) return res.status(401).json({msg: 'Email or password not valid' });
-      
-          const token = signToken(user, remember);
+          if(!passCorrect) return res.status(401).json({msg: 'nickName or password not valid' });
+        
+          res.cookie(process.env.PUBLIC_DOMAIN || process.env.PUBLIC_DOMAIN, {
+            maxAge: 432000000,
+            httpOnly: true,
+            sameSite: 'None',
+            secure: true,
+          })
+            .status(200)
+         
+            const token = signToken(user, remember);
+
           res.status(200).json({
             token,
             user: {
