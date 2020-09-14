@@ -28,42 +28,28 @@ exports.userSignup = async (req, res) => {
 
 exports.login = async (req, res) => {
 
-    try{
-        const {nickName, password, remember} = req.body;
-    
-        const userinDB = await User.findOne({nickName});
-        
-        if (!userinDB) return res.status(404).json({ msg: 'User not found' });
-     
-        const correctPassword = bcrypt.compareSync(password, userinDB.password)
-       
-
-        if(correctPassword){
-            res.cookie(process.env.PUBLIC_DOMAIN || process.env.PUBLIC_DOMAIN, {
-                maxAge: 432000000,
-                httpOnly: true,
-                sameSite: 'None',
-                secure: true,
-              })
-                .status(200)
-        
-              const token = signToken(userinDB, remember);
-
-              res.status(200).json({
-                token,
-                user: {
-                  userId: userinDB.id,
-                  name:userinDB.name,
-                  nickName: userinDB.nickName
-                }
-              });
-         
-        } else{
-            res.status(401).json({mssg:'Wrong password or nickName'})
+    exports.login = async (req, res) => {
+        const { nickName, password, remember } = req.body;
+      
+        try {
+          let user = await User.findOne({email});
+          if(!user) return res.status(404).json({msg: 'User not found'});
+      
+          const passCorrect = bcryptjs.compareSync(password, user.password);
+          if(!passCorrect) return res.status(401).json({msg: 'Email or password not valid' });
+      
+          const token = signToken(user, remember);
+          res.status(200).json({
+            token,
+            user: {
+              userId: user.id,
+              nickName: user.nickName
+            }
+          })
+        } catch (error) {
+            console.log(error);
         }
-    }catch(error){
-        res.json({'error':error})
-    }
+      }
 }
 
 exports.logout = async  (req, res) => {
