@@ -26,8 +26,6 @@ exports.userSignup = async (req, res) => {
 }
 
 
-exports.login = async (req, res) => {
-
     exports.login = async (req, res) => {
         const { nickName, password, remember } = req.body;
       
@@ -50,7 +48,7 @@ exports.login = async (req, res) => {
             console.log(error);
         }
       }
-}
+
 
 exports.logout = async  (req, res) => {
     try {
