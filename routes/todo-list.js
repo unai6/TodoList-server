@@ -13,7 +13,7 @@ const tasks = require('../appControllers/taskController');
 /*User Routes */
 router.post('/signup', userSignUp.userSignup);
 router.post('/login', userLogin.login);
-router.get('/dashboard/:userId', userDashboard.dashboard)
+router.get('/dashboard/:userId', checkToken, userDashboard.dashboard)
 router.post('/logout', logout.logout);
 
 

@@ -50,7 +50,7 @@ exports.login = async (req, res) => {
               const token = signToken(userinDB, remember);
 
               res.status(200).json({
-                token:token,
+                token,
                 user: {
                   userId: userinDB.id,
                   name:userinDB.name,
@@ -86,7 +86,6 @@ exports.dashboard = async (req, res) => {
             path:'tasks',
             model:'Task'
         });
-        console.log(user)
         res.status(200).json(user)
      
     } catch (error) { 
