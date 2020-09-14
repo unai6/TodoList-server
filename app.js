@@ -28,12 +28,20 @@ mongoose
     .catch((err) => console.error(err));
 
 // cors setup
+let whiteList = ["http://todo.unaigo.com", "https://organise-forines.web.app", "https://organise-forines.firebaseapp.com", "https://www.unaigo.com", "http://www.unaigo.com", "http://www.fontawesome.com", "http://localhost:3000"]
 
 app.use(
     cors({
         credentials: true,
-        origin: ["http://todo.unaigo.com", "https://organise-forines.web.app", "https://organise-forines.firebaseapp.com", "https://www.unaigo.com", "http://www.unaigo.com", "http://www.fontawesome.com", "http://localhost:3000"]
-    })
+        origin:  function (origin, callback) {
+            if (whiteList.indexOf(origin) !== -1) {
+              callback(null, true)
+            } else {
+              callback(new Error('Not allowed by CORS'))
+            }
+          }
+        }
+    )
 );  
 
 app.use(logger('dev'));
