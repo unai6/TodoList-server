@@ -32,7 +32,7 @@ exports.login = async (req, res) => {
         const { nickName, password, remember } = req.body;
       
         try {
-          let user = await User.findOne({email});
+          let user = await User.findOne({nickName});
           if(!user) return res.status(404).json({msg: 'User not found'});
       
           const passCorrect = bcryptjs.compareSync(password, user.password);
