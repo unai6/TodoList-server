@@ -38,7 +38,7 @@ let corsOptions =  function (origin, callback) {
   }
 app.use(
     cors({
-        credentials: true,
+        credentials: false,
         corsOptions
     })
 );  
