@@ -33,7 +33,7 @@ exports.login = async (req, res) => {
           let user = await User.findOne({nickName});
           if(!user) return res.status(404).json({msg: 'User not found'});
       
-          const passCorrect = bcryptjs.compareSync(password, user.password);
+          const passCorrect = bcrypt.compareSync(password, user.password);
           if(!passCorrect) return res.status(401).json({msg: 'nickName or password not valid' });
         
           res.cookie(process.env.PUBLIC_DOMAIN || process.env.PUBLIC_DOMAIN, {
