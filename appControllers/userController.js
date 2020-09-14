@@ -62,7 +62,7 @@ exports.login = async (req, res) => {
             res.status(401).json({mssg:'Wrong password or nickName'})
         }
     }catch(error){
-        res.json(error)
+        res.json({'error':error})
     }
 }
 
