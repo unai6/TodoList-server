@@ -42,7 +42,7 @@ exports.login = async (req, res) => {
             res.cookie(process.env.PUBLIC_DOMAIN || process.env.PUBLIC_DOMAIN, {
                 maxAge: 432000000,
                 httpOnly: true,
-                sameSite: 'none',
+                sameSite: 'None',
                 secure: true,
               })
                 .status(200)
