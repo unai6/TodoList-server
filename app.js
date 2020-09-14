@@ -1,6 +1,6 @@
 
 require("dotenv").config();
-const cors = require("cors");
+let cors = require("cors");
 const mongoose = require("mongoose");
 const createError = require('http-errors');
 const express = require('express');
@@ -38,7 +38,7 @@ let allowedOrigins =  [
     "http://www.unaigo.com", 
     "http://www.fontawesome.com", 
     "http://localhost:3000"];
-    
+
 app.use(cors({
   origin: function(origin, callback){
     // allow requests with no origin 
