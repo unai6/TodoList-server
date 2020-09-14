@@ -40,7 +40,8 @@ let allowedOrigins =  [
     "http://localhost:3000"];
 
 app.use(cors({
-  origin: function(origin, callback){
+    credentials:true,
+    origin: function(origin, callback){
     // allow requests with no origin 
     // (like mobile apps or curl requests)
     if(!origin) return callback(null, true);
