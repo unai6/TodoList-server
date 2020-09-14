@@ -30,7 +30,7 @@ exports.login = async (req, res) => {
     const { nickName, password, remember } = req.body;
 
     try {
-        let user = await User.findOne({ nickName });
+        let user = await User.findOne({nickName} );
         if (!user) return res.status(404).json({ msg: 'User not found' });
 
         const passCorrect = bcrypt.compareSync(password, user.password);
@@ -39,14 +39,7 @@ exports.login = async (req, res) => {
             return res.status(401).json({ msg: 'nickName or password not valid' })
 
         } else {
-            res.cookie(process.env.PUBLIC_DOMAIN || process.env.PUBLIC_DOMAIN, {
-                maxAge: 432000000,
-                httpOnly: true,
-                sameSite: 'None',
-                secure: true,
-            });
             const token = signToken(user, remember);
-
             res.status(200).json({
                 token,
                 user: {
@@ -61,19 +54,6 @@ exports.login = async (req, res) => {
         console.log(error);
     }
 };
-
-
-exports.logout = async (req, res) => {
-    try {
-        res.clearCookie(process.env.PUBLIC_DOMAIN);
-        res.status(200).json({ msg: "Log out sucesfully" });
-    } catch (e) {
-        console.error(e);
-        res.status(500).json({ msg: "Server error" });
-    }
-    return;
-}
-
 
 
 exports.dashboard = async (req, res) => {

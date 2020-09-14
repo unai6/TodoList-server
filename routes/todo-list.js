@@ -4,7 +4,6 @@ const router = express.Router()
 const userSignUp = require('../appControllers/userController');
 const userLogin = require('../appControllers/userController');
 const userDashboard = require('../appControllers/userController');
-const logout = require('../appControllers/userController');
 const checkToken  = require('../helpers/middlewares');
 
 
@@ -14,7 +13,7 @@ const tasks = require('../appControllers/taskController');
 router.post('/signup', userSignUp.userSignup);
 router.post('/login', userLogin.login);
 router.get('/dashboard/:userId', userDashboard.dashboard)
-router.post('/logout', logout.logout);
+
 
 
 /* Tasks Routes */
