@@ -2,7 +2,7 @@ const User = require('../models/User');
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const { signToken } = require('../helpers/signToken');
-const  jwt  = require('jsonwebtoken');
+
 
 exports.userSignup = async (req, res) => {
 
@@ -48,8 +48,9 @@ exports.login = async (req, res) => {
                 .status(200)
         
               const token = signToken(userinDB, remember);
+
               res.status(200).json({
-                token,
+                token:token,
                 user: {
                   userId: userinDB.id,
                   name:userinDB.name,
@@ -84,27 +85,12 @@ exports.dashboard = async (req, res) => {
         const user = await User.findById(userId).populate({
             path:'tasks',
             model:'Task'
-        })
-         const token = req.header('x-auth-token') || req.headers['authorization'];  
-
-            jwt.verify(token, process.env.SECRET_KEY, { userId }, (err, authorizedData) => {    
-                if (err) {
-                    res.status(401).json('Protected route, you need an auth Token');
-                    
-                } else {
-                    authorizedData.user = user
-                    res.json({
-                        message: 'Successful connection to protected route',
-                        authorizedData,   
-                    });
-                    
-                }
-
-            });
-        
+        });
+        console.log(user)
+        res.status(200).json(user)
+     
     } catch (error) { 
         console.log(error)
-        res.status(404).json('User is not verified') }
-
+    }
 };
 

@@ -5,7 +5,7 @@ const userSignUp = require('../appControllers/userController');
 const userLogin = require('../appControllers/userController');
 const userDashboard = require('../appControllers/userController');
 const logout = require('../appControllers/userController');
-const { checkToken } = require('../helpers/middlewares');
+const checkToken  = require('../helpers/middlewares');
 
 
 const tasks = require('../appControllers/taskController');
