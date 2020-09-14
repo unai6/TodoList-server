@@ -26,7 +26,7 @@ exports.userSignup = async (req, res) => {
 }
 
 
-    exports.login = async (req, res) => {
+exports.login = async (req, res) => {
         const { nickName, password, remember } = req.body;
       
         try {
@@ -47,7 +47,7 @@ exports.userSignup = async (req, res) => {
         } catch (error) {
             console.log(error);
         }
-      }
+      };
 
 
 exports.logout = async  (req, res) => {
