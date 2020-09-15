@@ -32,7 +32,15 @@ mongoose
 
 
 
-app.use(cors());
+app.use(cors({
+    credentials:true,
+    origin: [
+        "http://todo.unaigo.com", 
+        "https://organise-forines.web.app", 
+        "https://organise-forines.firebaseapp.com", 
+        "http://www.fontawesome.com", 
+        "http://localhost:3000"]
+}));
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
