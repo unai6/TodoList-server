@@ -78,6 +78,7 @@ exports.login = async (req, res) => {
           .status(200)
   
         const token = signToken(user, remember);
+     
         res.status(200).json({
           token,
           user: {
@@ -119,8 +120,7 @@ exports.dashboard = async (req, res) => {
         });
         jwt.verify(req.token, process.env.SECRET_KEY, { userId }, (err, authorizedData) => {
             if (err) {
-                console.log(err)
-
+              
                     res.status(403).json('Protected route, you need an auth Token');
                 } else {
 
@@ -130,12 +130,17 @@ exports.dashboard = async (req, res) => {
 
                     });
                     res.json(user)
-
                
                 }
             });
        
-    } catch (error) { res.status(404).json('User is not verified') }
+    } catch (error) { console.log(error)}
 
+};
 
+exports.getUserData = async (req, res) => {
+  const {userId} = req.params;
+
+  const user = User.findById(userId);
+  res.status(200).json(user);
 }

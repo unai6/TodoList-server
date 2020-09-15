@@ -1,19 +1,17 @@
 const express = require('express');
 const router = express.Router()
 
-const userSignUp = require('../appControllers/userController');
-const userLogin = require('../appControllers/userController');
-const userDashboard = require('../appControllers/userController');
+const authController = require('../appControllers/userController');
 const {checkToken}  = require('../helpers/middlewares');
 
 
 const tasks = require('../appControllers/taskController');
 
 /*User Routes */
-router.post('/signup', userSignUp.userSignup);
-router.post('/login', userLogin.login);
-router.get('/dashboard/:userId', checkToken, userDashboard.dashboard)
-
+router.post('/signup', authController.userSignup);
+router.post('/login', authController.login);
+router.get('/dashboard/:userId', checkToken, authController.dashboard)
+router.get('/userinfo/:userId', authController.getUserData)
 
 
 /* Tasks Routes */

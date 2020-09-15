@@ -19,14 +19,14 @@ const jwt = require('jsonwebtoken');
 
 
 exports.checkToken = (req, res, next) => {
-  const header = req.headers['authorization'];
-
+  const header = req.headers['Authorization'];
   if (typeof header !== 'undefined') {
-
-      const bearer = header.split(' ');
-      const token = bearer[1];
-
-      req.token = token;
+    
+    const bearer = header.split(' ');
+    const token = bearer[1];
+    
+    req.token = token;
+    
 
       next();
   } else {
