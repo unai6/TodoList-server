@@ -69,7 +69,9 @@ exports.login = async (req, res) => {
   
       } else if (passCorrect) {
   
-        res.cookie(process.env.PUBLIC_DOMAIN || process.env.PUBLIC_DOMAIN, {
+        const token = signToken(user, remember);
+       
+          res.cookie('token', token, {
           maxAge: 432000000,
           httpOnly: true,
           sameSite: 'none',
@@ -77,7 +79,6 @@ exports.login = async (req, res) => {
         })
           .status(200)
   
-        const token = signToken(user, remember);
      
         res.status(200).json({
           token,
@@ -113,12 +114,13 @@ exports.login = async (req, res) => {
 
 exports.dashboard = async (req, res) => {
     try {
+   
         const { userId } = req.params
         const user = await User.findById(userId).populate({
             path: 'tasks',
             model: 'Task'
         });
-        jwt.verify(req.token, process.env.SECRET_KEY, { userId }, (err, authorizedData) => {
+        jwt.verify(req.headers['authorization'], process.env.SECRET_KEY, { userId }, (err, authorizedData) => {
             if (err) {
               
                     res.status(403).json('Protected route, you need an auth Token');
@@ -139,8 +141,16 @@ exports.dashboard = async (req, res) => {
 };
 
 exports.getUserData = async (req, res) => {
-  const {userId} = req.params;
-
-  const user = User.findById(userId);
-  res.status(200).json(user);
-}
+  try {
+    const {userId} = req.params;
+  
+    const user = await User.findById(userId).populate({
+      path: 'tasks',
+      model: 'Task'
+  });
+    res.status(200).json(user);
+  
+  }catch(error){
+    console.log(error)
+  }
+};
