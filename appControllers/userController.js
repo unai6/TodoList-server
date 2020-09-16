@@ -97,21 +97,6 @@ exports.login = async (req, res) => {
   }
 
 
-// exports.dashboard = async (req, res) => {
-//     try {
-//         const { userId } = req.params;
-//         const user = await User.findById(userId).populate({
-//             path: 'tasks',
-//             model: 'Task'
-//         });
-//         res.status(200).json(user)
-
-//     } catch (error) {
-//         console.log(error)
-//     }
-// };
-
-
 exports.dashboard = async (req, res) => {
     try {
    
@@ -144,7 +129,7 @@ exports.getUserData = async (req, res) => {
   try {
     const {userId} = req.params;
   
-    const user = await User.findById(userId).populate({
+    const user = await User.findById(userId).limit(50).sort({_id:-1}).populate({
       path: 'tasks',
       model: 'Task'
   });
