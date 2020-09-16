@@ -30,8 +30,8 @@ exports.editTask = async (req, res) => {
     try {
 
         const {userId, taskId} = req.params;
-        const { name, category, description, completed } = req.body;
-        const newTask = await Task.findByIdAndUpdate(taskId, { name, category, description, completed });
+        const { name, category, description, completed, important } = req.body;
+        const newTask = await Task.findByIdAndUpdate(taskId, { name, category, description, completed, important });
         const userinDB = await User.findByIdAndUpdate(userId, {newTask} , {new:true});
 
         res.status(200).json(userinDB)

@@ -4,7 +4,6 @@ const userSchema = new mongoose.Schema({
     name: String,
     nickName : String,
     password:String,
-    done:{Type:Boolean, default:false},
     tasks: [{type:mongoose.Schema.Types.ObjectId, ref:'Tasks', required:true}]
 },
     {

@@ -4,6 +4,7 @@ const taskSchema = new mongoose.Schema({
     name: String,
     description: String,
     category:String,
+    important: {type:Boolean, default:false},
     completed: {type:Boolean, default:false},
 },
     {

@@ -12,7 +12,7 @@ router.post('/signup', authController.userSignup);
 router.post('/login', authController.login);
 router.get('/dashboard/:userId', checkToken, authController.dashboard)
 router.get('/userinfo/:userId', authController.getUserData)
-
+router.get('/:userId/alltasks', authController.getUserTasks)
 
 /* Tasks Routes */
 
