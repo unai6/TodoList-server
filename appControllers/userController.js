@@ -128,13 +128,12 @@ exports.dashboard = async (req, res) => {
 exports.getUserData = async (req, res) => {
   try {
     const {userId} = req.params;
-  
-    const user = await User.findById(userId).populate({
+    
+    const user = await User.findById(userId, {"tasks" : {$slice:30}}).populate({
       path: 'tasks',
       model: 'Task'
   })
-  .limit(50)
-  .sort({_id:-1});
+  
     res.status(200).json(user);
   
   }catch(error){
