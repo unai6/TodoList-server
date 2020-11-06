@@ -2,9 +2,11 @@ const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
     name: String,
+    email:String,
+    email_verified:Boolean,
     nickName : String,
     password:String,
-    tasks: [{type:mongoose.Schema.Types.ObjectId, ref:'Tasks', required:true}]
+    tasks: [{type:mongoose.Schema.Types.ObjectId, ref:'Tasks'}]
 },
     {
         timestamps: {

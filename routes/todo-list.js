@@ -8,6 +8,7 @@ const {checkToken}  = require('../helpers/middlewares');
 const tasks = require('../appControllers/taskController');
 
 /*User Routes */
+router.post('/google-signup', authController.signUpWithGoogle)
 router.post('/signup', authController.userSignup);
 router.post('/login', authController.login);
 router.get('/dashboard/:userId', checkToken, authController.dashboard)
