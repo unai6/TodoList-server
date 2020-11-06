@@ -17,9 +17,29 @@ exports.signUpWithGoogle = async (req, res) => {
     let userinDB = await User.findOne({ email }, 'email');
     if (!userinDB) {
       let newUser = await User.create({ name, email, email_verified });
+
+      const token = signToken(newUser);
+      res.cookie('token', token, {
+        maxAge: 432000000,
+        httpOnly: true,
+        sameSite: 'none',
+        secure: true,
+      })
+        .status(200)
+
       res.status(200).json(newUser)
-    } else{
-      console.log('user already in db')
+    } else {
+      const user = await User.findOne({ email }, 'email');
+      const token = signToken(user);
+      res.cookie('token', token, {
+        maxAge: 432000000,
+        httpOnly: true,
+        sameSite: 'none',
+        secure: true,
+      })
+        .status(200)
+
+      res.status(200).json({ user, token })
     }
   } catch (error) {
     console.log(error)
@@ -106,7 +126,6 @@ exports.login = async (req, res) => {
         sameSite: 'none',
         secure: true,
       })
-        .status(200)
 
 
       res.status(200).json({
