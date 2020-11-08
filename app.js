@@ -36,6 +36,7 @@ app.use(cors({
     credentials:true,
     origin: [
         "http://todo.unaigo.com", 
+        "https://todo.unaigo.com", 
         "https://organise-forines.web.app", 
         "https://organise-forines.firebaseapp.com", 
         "http://www.fontawesome.com", 
