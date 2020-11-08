@@ -4,9 +4,10 @@ const userSchema = new mongoose.Schema({
     name: String,
     email:String,
     email_verified:Boolean,
+    given_name:String,
     nickName : String,
     password:String,
-    tasks: [{type:mongoose.Schema.Types.ObjectId, ref:'Tasks'}]
+    tasks: [{type:mongoose.Schema.Types.ObjectId, ref:'Task'}]
 },
     {
         timestamps: {

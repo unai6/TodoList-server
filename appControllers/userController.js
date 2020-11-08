@@ -10,35 +10,20 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 exports.signUpWithGoogle = async (req, res) => {
 
   try {
-    const { tokenId } = req.body
+    const { tokenId } = req.body;
 
     const response = await client.verifyIdToken({ idToken: tokenId, audience: process.env.GOOGLE_CLIENT_ID });
-    const { email_verified, name, email } = response.payload;
-    let userinDB = await User.findOne({ email }, 'email');
-    if (!userinDB) {
-      let newUser = await User.create({ name, email, email_verified });
+    const { email_verified, name, email, given_name } = response.payload;
+    const userinDB = await User.findOne({email});
 
-      const token = signToken(newUser);
-      res.cookie('token', token, {
-        maxAge: 432000000,
-        httpOnly: true,
-        sameSite: 'none',
-        secure: true,
-      })
-        .status(200)
-
-      res.status(200).json(newUser)
+    if (userinDB === null) {
+      let user = await User.create({ name, email, email_verified, given_name });
+      const token = signToken(user._id);
+      res.status(200).json({user, token})
     } else {
-      const user = await User.findOne({ email }, 'email');
-      const token = signToken(user);
-      res.cookie('token', token, {
-        maxAge: 432000000,
-        httpOnly: true,
-        sameSite: 'none',
-        secure: true,
-      })
-        .status(200)
 
+      const user = await User.findOne({ email }).populate('tasks');
+      const token = signToken(user);
       res.status(200).json({ user, token })
     }
   } catch (error) {
@@ -50,7 +35,6 @@ exports.signUpWithGoogle = async (req, res) => {
 
 
 }
-
 
 
 exports.userSignup = async (req, res) => {
@@ -105,10 +89,10 @@ exports.userSignup = async (req, res) => {
 // };
 
 exports.login = async (req, res) => {
-  const { nickName, password, remember } = req.body;
+  const {email, password, remember } = req.body;
 
   try {
-    let user = await User.findOne({ nickName });
+    let user = await User.findOne({ email });
 
     if (!user) return res.status(404).json({ msg: 'User not found' });
 
