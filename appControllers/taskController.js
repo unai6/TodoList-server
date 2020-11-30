@@ -4,8 +4,8 @@ const User = require('../models/User')
 exports.createTask = async (req, res) => {
     try {
         const {userId} = req.params;
-        const { name, category, description } = req.body;
-        const newTask = await Task.create({ name, category, description });
+        const { name, category, description, taskDay} = req.body;
+        const newTask = await Task.create({ name, category, description, taskDay });
         const userinDB = await User.findByIdAndUpdate(userId, { $push:{ tasks:newTask } }, {new:true});
 
         res.status(200).json(userinDB)
@@ -30,8 +30,8 @@ exports.editTask = async (req, res) => {
     try {
 
         const {userId, taskId} = req.params;
-        const { name, category, description, completed, important } = req.body;
-        const newTask = await Task.findByIdAndUpdate(taskId, { name, category, description, completed, important });
+        const { name, category, description, completed, important, taskDay } = req.body;
+        const newTask = await Task.findByIdAndUpdate(taskId, { name, category, description, completed, important, taskDay });
         const userinDB = await User.findByIdAndUpdate(userId, {newTask} , {new:true});
 
         res.status(200).json(userinDB)

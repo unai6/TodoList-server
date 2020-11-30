@@ -6,6 +6,7 @@ const taskSchema = new mongoose.Schema({
     category:String,
     important: {type:Boolean, default:false},
     completed: {type:Boolean, default:false},
+    taskDay: {type:Date}
 },
     {
         timestamps: {
