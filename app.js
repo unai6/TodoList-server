@@ -1,23 +1,14 @@
-
 require("dotenv").config();
-let cors = require("cors");
-const mongoose = require("mongoose");
-const createError = require('http-errors');
-const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-const bodyParser = require("body-parser");
-
-const app = express();
+const dependencies = require('./services/dependencies')
+const app = dependencies.express();
+app.set('port', process.env.PORT || 5000)
 
 const projectRouter = require('./routes/todo-list');
 
-app.set('port', process.env.PORT || 5000)
 
 // connection mongo server
 
-mongoose
+dependencies.mongoose
     .connect(process.env.MONGODB_URI, {
         useUnifiedTopology: true,
         keepAlive: true,
@@ -28,11 +19,7 @@ mongoose
     .catch((err) => console.error(err));
 
 // cors setup
-
-
-
-
-app.use(cors({
+app.use(dependencies.cors({
     credentials:true,
     origin: [
         "http://todo.unaigo.com", 
@@ -43,12 +30,12 @@ app.use(cors({
         "http://localhost:3000"]
 }));
 
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.json());
-app.use(cookieParser());
-app.use('/public',  express.static(path.join(__dirname, 'public')));
+app.use(dependencies.logger('dev'));
+app.use(dependencies.bodyParser.json());
+app.use(dependencies.bodyParser.urlencoded({ extended: false }));
+app.use(dependencies.express.json());
+app.use(dependencies.cookieParser());
+app.use('/public',  dependencies.express.static(dependencies.path.join(__dirname, 'public')));
 
 
 app.use('/', projectRouter);
